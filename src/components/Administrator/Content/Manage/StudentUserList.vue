@@ -1,0 +1,169 @@
+<template>
+  <div>
+    <a-breadcrumb style="margin: 16px 0">
+      <a-breadcrumb-item>首页</a-breadcrumb-item>
+      <a-breadcrumb-item>学生管理</a-breadcrumb-item>
+    </a-breadcrumb>
+    <a-layout-content
+        :style="{ padding: '0', margin: 0, minHeight: '570px'}"
+    >
+      <a-row>
+        <a-col :span="4" style="background-color: white;padding: 10px;min-height: 570px">
+          <a-input-search v-model:value="searchValue" style="margin-bottom: 8px" placeholder="输入要查找的节点" />
+          <a-tree
+              :show-line="showLine"
+              :default-expanded-keys="['0-0-0']"
+              :tree-data="treeData"
+              @select="onSelect"
+              style="font-size: 12px"
+          >
+            <template #icon><carry-out-outlined /></template>
+
+          </a-tree>
+        </a-col>
+        <a-col :span="19" style="margin-left: 10px;background-color: white;padding: 20px" >
+          <a-table sticky :dataSource="dataSource" :columns="columns" bordered style="font-size: 12px">
+            <template #title>所有学生<br/>
+              <a-input-search
+                  v-model:value="value"
+                  placeholder="请输入关键字进行搜索"
+                  enter-button="查询"
+                  @search="onSearch"
+                  style="width: 250px;margin-top: 15px"
+              />
+            </template>
+            <template #bodyCell="{column}">
+              <template v-if="column.dataIndex==='caozuo'">
+                <a>编辑</a>
+                <a>&nbsp;禁用</a>
+                <a>&nbsp;删除</a>
+              </template>
+            </template>
+          </a-table>
+        </a-col>
+      </a-row>
+    </a-layout-content>
+  </div>
+</template>
+
+<script>
+import {defineComponent, ref} from 'vue';
+import { CarryOutOutlined} from '@ant-design/icons-vue';
+export default defineComponent({
+  name: "StudentUserList",
+  components: {
+    CarryOutOutlined,
+  },
+  setup() {
+    const showLine = ref(true);
+    const treeData = [{
+      title: '武汉市',
+      key: '0-0',
+      children: [{
+        title: '江岸区',
+        key: '0-0-0',
+        children: [{
+          title: '江岸城区',
+          key: '0-0-0-0',
+          children: [{
+            title: '江岸区花桥小学',
+            key: '0-0-0-0-0',
+            children: [{
+              title: '一年级',
+              key: '0-0-0-0-0-0',
+              isLeaf: true,
+            }]
+          }]
+        }]
+      }, {
+        title: '江汉区',
+        key: '0-0-1',
+        children: [{
+
+        }]
+      }, {
+        title: '洪山区',
+        key: '0-0-2',
+        children: [{
+
+        }]
+      }, {
+        title: '青山区',
+        key: '0-0-3',
+        children: [{
+
+        }]
+      }, {
+        title: '汉阳区',
+        key: '0-0-4',
+        children: [{
+
+        }]
+      }],
+    }, {
+      title: 'parent 1',
+      key: '0-1',
+      children: [{
+        title: 'leaf 1-0',
+        key: '0-1-0',
+        isLeaf: true,
+      }, {
+        title: 'leaf 1-1',
+        key: '0-1-1',
+        isLeaf: true,
+      }],
+    }];
+    const dataSource = [
+      {
+        key: '1',
+        xuehao: '2018302110120',
+        xingming:'张三',
+        xingbie: '未知',
+      },
+      {
+        key: '2',
+        xuehao: '2018302110121',
+        xingming:'李四',
+        xingbie: '未知',
+      },
+    ]
+    const columns = [
+      {
+        title: '学号',
+        dataIndex: 'xuehao',
+        key: 'xuehao',
+        align: 'center',
+      },
+      {
+        title: '姓名',
+        dataIndex: 'xingming',
+        key: 'xingming',
+        align: 'center',
+      },
+      {
+        title: '性别',
+        dataIndex: 'xingbie',
+        key: 'xingbie',
+        align: 'center',
+      },
+      {
+        title: '操作',
+        dataIndex: 'caozuo',
+        key: 'caozuo',
+        align: 'center',
+      },
+    ]
+    return {
+      showLine,
+      treeData,
+      dataSource,
+      columns,
+    };
+  },
+
+});
+</script>
+
+<style scoped>
+
+</style>
